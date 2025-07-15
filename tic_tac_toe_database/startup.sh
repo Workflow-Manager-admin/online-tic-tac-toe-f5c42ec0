@@ -131,6 +131,15 @@ echo ""
 echo "Environment variables saved to db_visualizer/mysql.env"
 echo "To use with Node.js viewer, run: source db_visualizer/mysql.env"
 
+echo "Initializing schema from init_schema.sql..."
+# Apply schema as appuser; this user should have full privileges on DB
+mysql -u ${DB_USER} -p${DB_PASSWORD} -h 127.0.0.1 -P ${DB_PORT} ${DB_NAME} < init_schema.sql
+if [ $? -eq 0 ]; then
+    echo "Database schema initialized successfully."
+else
+    echo "Warning: Database schema initialization failed."
+fi
+
 echo "To connect to the database, use the following command:"
 echo "$(cat db_connection.txt)"
 
